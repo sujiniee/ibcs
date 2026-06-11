@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grindelwald — Swiss Alps Journal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:      #F5F0E8;
+  --warm-white: #FDFBF7;
+  --sage:       #8FA882;
+  --sage-mid:   #C4D4BA;
+  --sage-light: #E2EBD9;
+  --sage-dark:  #5A7350;
+  --forest:     #3A5040;
+  --sky:        #D0E0EA;
+  --text:       #2A2420;
+  --text-mid:   #5A5048;
+  --text-light: #9A8E84;
+  --border:     rgba(90,115,80,0.18);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);
+  color: var(--text);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.4rem 3rem;
+  mix-blend-mode: normal;
+  transition: background 0.4s, backdrop-filter 0.4s;
+}
+.nav.scrolled {
+  background: rgba(245,240,232,0.88);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  color: #fff;
+  text-transform: uppercase;
+  transition: color 0.4s;
+}
+.nav.scrolled .nav-logo { color: var(--forest); }
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: rgba(255,255,255,0.8);
+  transition: color 0.3s;
+}
+.nav.scrolled .nav-links a { color: var(--text-light); }
+.nav-links a:hover { color: var(--sage) !important; }
+
+/* ── HERO ── */
+.hero {
+  height: 100vh;
+  min-height: 600px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(160deg, rgba(30,50,35,0.25) 0%, rgba(20,35,25,0.6) 100%),
+    /* Realistic mountain illustration using gradients */
+    linear-gradient(180deg,
+      #89B4C8 0%,
+      #A8C8D8 12%,
+      #C4D8E4 22%,
+      #B8D0C0 38%,
+      #7A9E82 55%,
+      #587060 72%,
+      #3A5040 85%,
+      #2A3C30 100%
+    );
+}
+/* SVG mountain scene */
+.hero-mountain-svg {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  width: 100%;
+  z-index: 1;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top,
+    rgba(30,48,36,0.7) 0%,
+    rgba(30,48,36,0.1) 50%,
+    transparent 100%);
+  z-index: 2;
+}
+.hero-content {
+  position: relative;
+  z-index: 3;
+  padding: 0 5vw 7vh;
+  max-width: 800px;
+}
+.hero-eyebrow {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--sage-mid);
+  margin-bottom: 1.2rem;
+}
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(4rem, 9vw, 8rem);
+  font-weight: 300;
+  line-height: 0.92;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+.hero-title em {
+  font-style: italic;
+  font-weight: 300;
+}
+.hero-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  color: rgba(255,255,255,0.65);
+  margin-top: 1.2rem;
+  font-weight: 300;
+}
+.hero-meta {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+.hero-flag {
+  font-size: 1.5rem;
+}
+.hero-info {
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+}
+.scroll-line {
+  position: absolute;
+  bottom: 2.5rem;
+  right: 4rem;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255,255,255,0.4);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.scroll-line::after {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 50px;
+  background: rgba(255,255,255,0.3);
+  animation: scrollline 2s ease-in-out infinite;
+}
+@keyframes scrollline {
+  0%, 100% { transform: scaleY(1); opacity: 0.3; }
+  50% { transform: scaleY(0.6); opacity: 0.8; }
+}
+
+/* ── INTRO STRIP ── */
+.intro-strip {
+  background: var(--forest);
+  padding: 2rem 5vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+.intro-strip-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: var(--sage-mid);
+  font-weight: 300;
+}
+.intro-strip-meta {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(196,212,186,0.5);
+  white-space: nowrap;
+}
+
+/* ── SECTION BASE ── */
+.s { padding: 6rem 5vw; }
+.s-narrow { max-width: 900px; margin: 0 auto; }
+.s-wide   { max-width: 1200px; margin: 0 auto; }
+
+.s-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--sage-dark);
+  margin-bottom: 0.8rem;
+}
+.s-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+  font-weight: 300;
+  line-height: 1.1;
+  color: var(--text);
+}
+.s-title em { font-style: italic; color: var(--sage-dark); }
+.rule {
+  width: 40px;
+  height: 1px;
+  background: var(--sage);
+  margin: 1.8rem 0;
+}
+
+/* ── ABOUT ── */
+.about-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 5rem;
+  align-items: start;
+  margin-top: 3rem;
+}
+.about-body p {
+  font-size: 1rem;
+  line-height: 1.95;
+  color: var(--text-mid);
+  margin-bottom: 1.2rem;
+}
+.about-pull {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.35rem;
+  color: var(--sage-dark);
+  border-left: 2px solid var(--sage);
+  padding-left: 1.5rem;
+  margin: 2rem 0;
+  line-height: 1.6;
+}
+.fact-list {
+  border-top: 1px solid var(--border);
+}
+.fact-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+  gap: 1rem;
+}
+.fact-key {
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-light);
+}
+.fact-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: var(--text);
+  text-align: right;
+}
+
+/* ── PHOTO SPOTS ── */
+.spots-bg { background: var(--sage-light); }
+
+.spots-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  margin-top: 3rem;
+}
+
+.spot-card {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  cursor: pointer;
+  background: var(--sage-mid);
+}
+.spot-card img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.spot-card:hover img {
+  transform: scale(1.06);
+}
+.spot-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(30,48,36,0.75) 0%, transparent 55%);
+  transition: background 0.4s;
+}
+.spot-card:hover .spot-overlay {
+  background: linear-gradient(to top, rgba(30,48,36,0.6) 0%, rgba(30,48,36,0.1) 55%);
+}
+.spot-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2rem;
+}
+.spot-number {
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--sage-mid);
+  margin-bottom: 0.4rem;
+}
+.spot-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 300;
+  color: #fff;
+  line-height: 1.2;
+}
+.spot-desc {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.65);
+  margin-top: 0.5rem;
+  line-height: 1.5;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.4s;
+  opacity: 0;
+}
+.spot-card:hover .spot-desc {
+  max-height: 60px;
+  opacity: 1;
+}
+
+/* Fallback gradient backgrounds for each spot */
+.spot-card.s1 { background: linear-gradient(160deg,#5E8FA8 0%,#3A6B7A 40%,#4A7860 100%); }
+.spot-card.s2 { background: linear-gradient(160deg,#C4D0C8 0%,#8A9E90 40%,#4A5A50 100%); }
+.spot-card.s3 { background: linear-gradient(160deg,#7A9E7A 0%,#5A8060 40%,#3A5A40 100%); }
+.spot-card.s4 { background: linear-gradient(160deg,#A89878 0%,#7A7060 40%,#5A6050 100%); }
+
+/* ── OUTFIT ── */
+.outfit-bg { background: var(--warm-white); }
+.outfit-intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  margin-top: 3rem;
+  align-items: start;
+}
+.outfit-list { display: flex; flex-direction: column; gap: 0; }
+.outfit-item {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.4rem 0;
+  border-bottom: 1px solid var(--border);
+  transition: padding-left 0.25s;
+  cursor: default;
+}
+.outfit-item:hover { padding-left: 0.5rem; }
+.outfit-item:first-child { border-top: 1px solid var(--border); }
+.outfit-glyph {
+  font-size: 1.4rem;
+  width: 2rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+.outfit-text {}
+.outfit-nm {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  color: var(--text);
+}
+.outfit-note {
+  font-size: 0.78rem;
+  color: var(--text-light);
+  margin-top: 0.1rem;
+}
+.outfit-moodboard {
+  background: var(--sage-light);
+  border-radius: 2px;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.mood-title {
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--sage-dark);
+  margin-bottom: 0.5rem;
+}
+.mood-swatches {
+  display: flex;
+  gap: 0.75rem;
+}
+.swatch {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.mood-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.mood-tag {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid var(--sage);
+  color: var(--sage-dark);
+  padding: 0.3rem 0.8rem;
+  border-radius: 50px;
+}
+.mood-handwrite {
+  font-family: 'Caveat', cursive;
+  font-size: 1.2rem;
+  color: var(--sage-dark);
+  margin-top: 0.5rem;
+}
+
+/* ── ACTIVITIES ── */
+.act-bg { background: var(--cream); }
+.act-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5px;
+  margin-top: 3rem;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+.act-cell {
+  background: var(--warm-white);
+  padding: 2.5rem 2rem;
+  transition: background 0.3s;
+  cursor: default;
+}
+.act-cell:hover { background: var(--sage-light); }
+.act-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  font-weight: 300;
+  color: var(--sage-mid);
+  line-height: 1;
+  margin-bottom: 1.2rem;
+}
+.act-icon { font-size: 1.6rem; margin-bottom: 0.8rem; display: block; }
+.act-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  color: var(--text);
+  margin-bottom: 0.6rem;
+}
+.act-desc {
+  font-size: 0.83rem;
+  color: var(--text-light);
+  line-height: 1.7;
+}
+
+/* ── GALLERY ── */
+.gallery-bg { background: var(--sage-light); }
+.gallery-masonry {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-top: 3rem;
+}
+.g-slot {
+  aspect-ratio: 1;
+  background: rgba(255,255,255,0.5);
+  border: 1px dashed var(--sage);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  overflow: hidden;
+  position: relative;
+}
+.g-slot:hover { background: rgba(255,255,255,0.8); border-color: var(--sage-dark); }
+.g-slot.filled {
+  border-style: solid;
+  border-color: transparent;
+}
+.g-slot.filled::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom right, rgba(90,115,80,0.08), transparent);
+}
+.g-icon { font-size: 1.2rem; color: var(--sage); margin-bottom: 0.3rem; }
+.g-lbl {
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--sage-dark);
+}
+.g-emoji { font-size: 2.5rem; }
+
+/* ── ENDING ── */
+.ending {
+  background: var(--forest);
+  padding: 8rem 5vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.ending::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 80%, rgba(90,115,80,0.3) 0%, transparent 70%);
+}
+.ending-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+  font-weight: 300;
+  color: rgba(255,255,255,0.9);
+  max-width: 640px;
+  line-height: 1.55;
+  position: relative;
+  z-index: 1;
+}
+.ending-quote::before {
+  content: '"';
+  font-size: 6rem;
+  color: rgba(144,168,130,0.2);
+  position: absolute;
+  top: -2rem;
+  left: -2rem;
+  font-style: normal;
+  line-height: 1;
+}
+.ending-attr {
+  margin-top: 2.5rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--sage);
+  position: relative;
+  z-index: 1;
+}
+.ending-rule {
+  width: 1px;
+  height: 60px;
+  background: rgba(144,168,130,0.4);
+  margin: 2rem auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width:860px) {
+  .about-layout { grid-template-columns: 1fr; gap: 3rem; }
+  .outfit-intro  { grid-template-columns: 1fr; gap: 2rem; }
+  .act-grid      { grid-template-columns: 1fr 1fr; }
+  .spots-grid    { grid-template-columns: 1fr; }
+  .gallery-masonry { grid-template-columns: repeat(2,1fr); }
+  .nav-links { display: none; }
+  .intro-strip { flex-direction: column; gap: 0.5rem; }
+}
+@media (max-width:500px) {
+  .act-grid { grid-template-columns: 1fr; }
+  .gallery-masonry { grid-template-columns: repeat(2,1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <span class="nav-logo">Grindelwald</span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#spots">Photo Spots</a></li>
+    <li><a href="#outfit">Outfit</a></li>
+    <li><a href="#activities">Activities</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+
+  <!-- Layered mountain SVG -->
+  <svg class="hero-mountain-svg" viewBox="0 0 1440 520" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+    <!-- Far mountains -->
+    <polygon points="0,520 120,310 250,380 420,240 580,320 720,200 880,300 1050,210 1200,290 1350,230 1440,270 1440,520" fill="rgba(100,140,120,0.35)"/>
+    <!-- Snow caps -->
+    <polygon points="420,240 388,282 452,282" fill="rgba(230,240,235,0.55)"/>
+    <polygon points="720,200 686,248 754,248" fill="rgba(235,245,240,0.6)"/>
+    <polygon points="1050,210 1015,255 1085,255" fill="rgba(225,238,232,0.5)"/>
+    <!-- Mid mountains -->
+    <polygon points="0,520 80,370 200,430 380,280 520,360 680,250 840,350 1000,270 1150,340 1300,275 1440,310 1440,520" fill="rgba(70,105,82,0.55)"/>
+    <polygon points="380,280 350,320 410,320" fill="rgba(220,235,228,0.65)"/>
+    <polygon points="680,250 645,295 715,295" fill="rgba(225,238,232,0.7)"/>
+    <polygon points="1000,270 964,312 1036,312" fill="rgba(215,232,224,0.6)"/>
+    <!-- Front hills -->
+    <polygon points="0,520 0,420 180,360 340,410 500,370 660,420 800,385 960,425 1100,390 1260,415 1440,395 1440,520" fill="rgba(45,72,52,0.75)"/>
+    <!-- Foreground dark -->
+    <polygon points="0,520 0,480 200,455 400,470 600,450 800,465 1000,448 1200,460 1440,452 1440,520" fill="rgba(30,48,36,0.9)"/>
+    <!-- Tree silhouettes -->
+    <g fill="rgba(25,42,30,0.95)">
+      <rect x="40"  y="462" width="5"  height="28" rx="1"/>
+      <polygon points="42,442 30,464 54,464"/>
+      <polygon points="42,455 33,468 51,468"/>
+      <rect x="70"  y="458" width="5"  height="32" rx="1"/>
+      <polygon points="72,438 60,462 84,462"/>
+      <polygon points="72,451 63,465 81,465"/>
+      <rect x="100" y="465" width="5"  height="25" rx="1"/>
+      <polygon points="102,447 91,467 113,467"/>
+      <rect x="1350" y="462" width="5" height="28" rx="1"/>
+      <polygon points="1352,442 1340,464 1364,464"/>
+      <rect x="1380" y="458" width="5" height="32" rx="1"/>
+      <polygon points="1382,438 1370,462 1394,462"/>
+      <rect x="1410" y="465" width="5" height="25" rx="1"/>
+      <polygon points="1412,447 1401,467 1423,467"/>
+    </g>
+  </svg>
+
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Switzerland · Bernese Oberland · 1,034 m</p>
+    <h1 class="hero-title">Grindel<em>wald</em></h1>
+    <p class="hero-sub">A journal from the heart of the Alps</p>
+    <div class="hero-meta">
+      <span class="hero-flag">🇨🇭</span>
+      <span class="hero-info">Summer Edition</span>
+    </div>
+  </div>
+  <div class="scroll-line">Scroll</div>
+</section>
+
+<!-- INTRO STRIP -->
+<div class="intro-strip">
+  <p class="intro-strip-text">"Arriving in Grindelwald feels like stepping into a painting you thought only existed in dreams."</p>
+  <span class="intro-strip-meta">46°37′N · 8°02′E</span>
+</div>
+
+<!-- ── ABOUT ── -->
+<section class="s" id="about">
+<div class="s-wide">
+  <p class="s-label">01 — About</p>
+  <h2 class="s-title">The Village<br>Beneath the <em>Eiger</em></h2>
+  <div class="rule"></div>
+  <div class="about-layout">
+    <div class="about-body">
+      <p>해발 1,034m에 위치한 그린델발트는 스위스 베르너 오버란트의 아담한 산악 마을이에요. 아이거(Eiger), 묀히(Mönch), 융프라우(Jungfrau) — 세 봉우리가 마을을 반원형으로 감싸고 있어서, 어느 방향으로 걸어도 설산이 시야에 들어와요.</p>
+      <blockquote class="about-pull">
+        "여름엔 꽃밭, 겨울엔 설원 — 하지만 진짜 매력은 그 사이에 있어요."
+      </blockquote>
+      <p>인터라켄에서 기차로 35분. 첫 역에 내리는 순간부터 공기가 달라지고, 소 방울 소리와 목초지 향이 감싸와요. 과하게 개발되지 않은 덕분에 1900년대 스위스 마을의 질감이 그대로 남아 있어요.</p>
+    </div>
+    <aside class="fact-list">
+      <div class="fact-row">
+        <span class="fact-key">위치</span>
+        <span class="fact-val">Canton of Bern, CH</span>
+      </div>
+      <div class="fact-row">
+        <span class="fact-key">고도</span>
+        <span class="fact-val">1,034 m asl</span>
+      </div>
+      <div class="fact-row">
+        <span class="fact-key">최고 시즌</span>
+        <span class="fact-val">6–9월 · 12–2월</span>
+      </div>
+      <div class="fact-row">
+        <span class="fact-key">교통</span>
+        <span class="fact-val">Interlaken Ost → 35 min</span>
+      </div>
+      <div class="fact-row">
+        <span class="fact-key">언어</span>
+        <span class="fact-val">Swiss German</span>
+      </div>
+      <div class="fact-row">
+        <span class="fact-key">통화</span>
+        <span class="fact-val">CHF (Swiss Franc)</span>
+      </div>
+    </aside>
+  </div>
+</div>
+</section>
+
+<!-- ── PHOTO SPOTS ── -->
+<section class="s spots-bg" id="spots" style="padding-top:5rem; padding-bottom:5rem;">
+<div class="s-wide">
+  <p class="s-label">02 — Photo Spots</p>
+  <h2 class="s-title">Four Places to<br><em>Never Forget</em></h2>
+  <div class="rule"></div>
+</div>
+
+<div style="max-width:1200px; margin:0 auto;">
+<div class="spots-grid">
+
+  <!-- Spot 1: Bachalpsee -->
+  <div class="spot-card s1">
+    <img
+      src="https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=900&q=80&fit=crop"
+      alt="Bachalpsee lake Grindelwald"
+      onerror="this.style.display='none'"
+      loading="lazy"
+    />
+    <div class="spot-overlay"></div>
+    <div class="spot-info">
+      <p class="spot-number">01</p>
+      <h3 class="spot-name">Bachalpsee</h3>
+      <p class="spot-desc">해발 2,265m의 에메랄드빛 호수. 설산이 수면에 반사되는 순간은 잊을 수 없어요.</p>
+    </div>
+  </div>
+
+  <!-- Spot 2: Eiger View -->
+  <div class="spot-card s2">
+    <img
+      src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&q=80&fit=crop"
+      alt="Eiger mountain Grindelwald"
+      onerror="this.style.display='none'"
+      loading="lazy"
+    />
+    <div class="spot-overlay"></div>
+    <div class="spot-info">
+      <p class="spot-number">02</p>
+      <h3 class="spot-name">Eiger North Face</h3>
+      <p class="spot-desc">마을 어디서든 보이는 아이거 북벽. 새벽 알펜글로가 물드는 순간을 놓치지 마세요.</p>
+    </div>
+  </div>
+
+  <!-- Spot 3: Village -->
+  <div class="spot-card s3">
+    <img
+      src="https://images.unsplash.com/photo-1467173572719-f14b9fb86e5f?w=900&q=80&fit=crop"
+      alt="Grindelwald village Switzerland"
+      onerror="this.style.display='none'"
+      loading="lazy"
+    />
+    <div class="spot-overlay"></div>
+    <div class="spot-info">
+      <p class="spot-number">03</p>
+      <h3 class="spot-name">Village & Church</h3>
+      <p class="spot-desc">아침 안개 속 교회 종탑과 목초지. 느리게 걸으며 발견하는 마을의 표정.</p>
+    </div>
+  </div>
+
+  <!-- Spot 4: First Cable Car -->
+  <div class="spot-card s4">
+    <img
+      src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=900&q=80&fit=crop"
+      alt="Alpine meadow Switzerland mountains"
+      onerror="this.style.display='none'"
+      loading="lazy"
+    />
+    <div class="spot-overlay"></div>
+    <div class="spot-info">
+      <p class="spot-number">04</p>
+      <h3 class="spot-name">First — 2,166 m</h3>
+      <p class="spot-desc">케이블카로 오르는 피르스트. 클리프 워크와 집라인에서 바라보는 360° 파노라마.</p>
+    </div>
+  </div>
+
+</div>
+</div>
+</section>
+
+<!-- ── OUTFIT ── -->
+<section class="s outfit-bg" id="outfit">
+<div class="s-wide">
+  <p class="s-label">03 — Packing</p>
+  <h2 class="s-title">What to <em>Wear</em></h2>
+  <div class="rule"></div>
+
+  <div class="outfit-intro">
+    <div class="outfit-list">
+      <div class="outfit-item">
+        <span class="outfit-glyph">🤍</span>
+        <div class="outfit-text">
+          <div class="outfit-nm">White Linen Dress</div>
+          <div class="outfit-note">가볍고 통기성 좋은 리넨 — 알프스 바람에 딱</div>
+        </div>
+      </div>
+      <div class="outfit-item">
+        <span class="outfit-glyph">🌿</span>
+        <div class="outfit-text">
+          <div class="outfit-nm">Beige Knit Cardigan</div>
+          <div class="outfit-note">고도가 높아질수록 기온이 급격히 내려가요</div>
+        </div>
+      </div>
+      <div class="outfit-item">
+        <span class="outfit-glyph">👟</span>
+        <div class="outfit-text">
+          <div class="outfit-nm">Trail Sneakers</div>
+          <div class="outfit-note">하이킹 트레일엔 그립 좋은 신발이 필수</div>
+        </div>
+      </div>
+      <div class="outfit-item">
+        <span class="outfit-glyph">🎒</span>
+        <div class="outfit-text">
+          <div class="outfit-nm">Mini Daypack</div>
+          <div class="outfit-note">물 1.5L · 간식 · 카메라가 들어갈 사이즈</div>
+        </div>
+      </div>
+      <div class="outfit-item">
+        <span class="outfit-glyph">🧢</span>
+        <div class="outfit-text">
+          <div class="outfit-nm">Wide Brim Hat</div>
+          <div class="outfit-note">고산지대 자외선은 예상보다 강해요</div>
+        </div>
+      </div>
+      <div class="outfit-item">
+        <span class="outfit-glyph">📷</span>
+        <div class="outfit-text">
+          <div class="outfit-nm">Film Camera</div>
+          <div class="outfit-note">이 풍경은 필름 그레인으로 담아야 해요</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="outfit-moodboard">
+      <p class="mood-title">Colour Palette</p>
+      <div class="mood-swatches">
+        <div class="swatch" style="background:#F5F0E8;" title="Cream"></div>
+        <div class="swatch" style="background:#C4D4BA;" title="Sage"></div>
+        <div class="swatch" style="background:#D0C4A8;" title="Sand"></div>
+        <div class="swatch" style="background:#8FA882;" title="Forest"></div>
+      </div>
+      <p class="mood-title" style="margin-top:1.5rem;">Vibe</p>
+      <div class="mood-tags">
+        <span class="mood-tag">Quiet Luxury</span>
+        <span class="mood-tag">Alpine</span>
+        <span class="mood-tag">Linen & Wool</span>
+        <span class="mood-tag">Effortless</span>
+      </div>
+      <p class="mood-handwrite" style="margin-top:1.5rem;">"Less, but better — always."</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ── ACTIVITIES ── -->
+<section class="s act-bg" id="activities">
+<div class="s-wide">
+  <p class="s-label">04 — Activities</p>
+  <h2 class="s-title">How to Spend<br><em>Your Days</em></h2>
+  <div class="rule"></div>
+
+  <div class="act-grid">
+    <div class="act-cell">
+      <div class="act-num">01</div>
+      <span class="act-icon">🏞️</span>
+      <div class="act-name">Bachalpsee Hike</div>
+      <p class="act-desc">First 케이블카 탑승 후 약 1시간. 에메랄드 호수에 반사되는 봉우리들을 담아보세요.</p>
+    </div>
+    <div class="act-cell">
+      <div class="act-num">02</div>
+      <span class="act-icon">⛪</span>
+      <div class="act-name">Village Morning Walk</div>
+      <p class="act-desc">안개 걷히기 전 이른 아침, 교회 종탑 주변을 조용히 걷는 시간. 사진보다 기억에 남아요.</p>
+    </div>
+    <div class="act-cell">
+      <div class="act-num">03</div>
+      <span class="act-icon">🌲</span>
+      <div class="act-name">Panorama Trail</div>
+      <p class="act-desc">그린델발트-그룬트 출발, 아이거 북벽을 정면으로 바라보며 걷는 2시간 코스.</p>
+    </div>
+    <div class="act-cell">
+      <div class="act-num">04</div>
+      <span class="act-icon">🚡</span>
+      <div class="act-name">First Cliff Walk</div>
+      <p class="act-desc">절벽 끝에 설치된 메탈 브릿지 위에서 발 아래를 내려다보는 아찔한 경험.</p>
+    </div>
+    <div class="act-cell">
+      <div class="act-num">05</div>
+      <span class="act-icon">🧀</span>
+      <div class="act-name">Alpine Cheese Fondue</div>
+      <p class="act-desc">에멘탈 & 그뤼에르 퐁듀는 여기서 먹어야 진짜예요. 저녁 노을 지는 테라스에서.</p>
+    </div>
+    <div class="act-cell">
+      <div class="act-num">06</div>
+      <span class="act-icon">🌅</span>
+      <div class="act-name">Alpenglow at Dawn</div>
+      <p class="act-desc">새벽 5시 반, 아이거가 붉게 물드는 순간. 이것 하나 때문에 알람을 맞출 가치가 있어요.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ── GALLERY ── -->
+<section class="s gallery-bg" id="gallery">
+<div class="s-wide">
+  <p class="s-label">05 — Gallery</p>
+  <h2 class="s-title">Your <em>Memories</em></h2>
+  <div class="rule"></div>
+  <p style="font-size:0.85rem; color:var(--text-light); margin-bottom:0;">슬롯을 클릭해서 사진을 추가해보세요.</p>
+
+  <div class="gallery-masonry" id="galleryGrid">
+    <div class="g-slot filled" style="background:linear-gradient(135deg,#7A9E92,#4A7868);">
+      <span class="g-emoji">🏔️</span>
+    </div>
+    <div class="g-slot filled" style="background:linear-gradient(135deg,#8AA87A,#5A8060);">
+      <span class="g-emoji">🌿</span>
+    </div>
+    <div class="g-slot">
+      <span class="g-icon">＋</span>
+      <span class="g-lbl">Add Photo</span>
+    </div>
+    <div class="g-slot">
+      <span class="g-icon">＋</span>
+      <span class="g-lbl">Add Photo</span>
+    </div>
+    <div class="g-slot">
+      <span class="g-icon">＋</span>
+      <span class="g-lbl">Add Photo</span>
+    </div>
+    <div class="g-slot">
+      <span class="g-icon">＋</span>
+      <span class="g-lbl">Add Photo</span>
+    </div>
+    <div class="g-slot">
+      <span class="g-icon">＋</span>
+      <span class="g-lbl">Add Photo</span>
+    </div>
+    <div class="g-slot">
+      <span class="g-icon">＋</span>
+      <span class="g-lbl">Add Photo</span>
+    </div>
+  </div>
+</div>
+</section>
+<input type="file" id="photoInput" accept="image/*" style="display:none">
+
+<!-- ── ENDING ── -->
+<section class="ending">
+  <blockquote class="ending-quote">
+    Take only photographs,<br>leave only footprints.
+  </blockquote>
+  <div class="ending-rule"></div>
+  <p class="ending-attr">Grindelwald · Switzerland · Always in memory</p>
+</section>
+
+<script>
+// Nav scroll state
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Gallery upload
+document.querySelectorAll('.g-slot:not(.filled)').forEach(slot => {
+  slot.addEventListener('click', () => {
+    const input = document.getElementById('photoInput');
+    input.click();
+    input.onchange = () => {
+      const file = input.files[0];
+      if (!file) return;
+      const url = URL.createObjectURL(file);
+      slot.innerHTML = '';
+      slot.style.backgroundImage = `url(${url})`;
+      slot.style.backgroundSize = 'cover';
+      slot.style.backgroundPosition = 'center';
+      slot.classList.add('filled');
+    };
+  });
+});
+
+// Scroll reveal
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.spot-card, .act-cell, .outfit-item, .fact-row').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(16px)';
+  el.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+  io.observe(el);
+});
+</script>
+</body>
+</html>
